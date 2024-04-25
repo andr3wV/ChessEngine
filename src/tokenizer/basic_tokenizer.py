@@ -5,7 +5,7 @@ padds the output to a specific length
 """
 
 
-# All possible characters in a fen adding, '.' for padding purposes
+# All possible characters in a fen, adding '.' for padding purposes
 STOI = '. -/12345678BKNPQRbknpqrw'
 
 class BasicTokenizer:
@@ -25,9 +25,7 @@ class BasicTokenizer:
 
         # Disregards castling and move number information
         parts = fen.split(" ")
-        print(parts)
         fen_part = ' '.join(parts[:2])
-        print(fen_part)
         # Convert chars to integers
         ids = [self.stoi[char] for char in fen_part]
         # Padds to a constand length
