@@ -1,31 +1,36 @@
-# Purpose
+# Overview
 
-This repo is inspired by capablanca when he was reportedly asked how many moves ahead do you calculate, to which he replied: “only one, but it is always the best one”
+This project demonstrates how a tokenizer and a trained neural network can be combined to create a chess engine. Unlike traditional search-based engines, this no-search engine evaluates positions one move ahead and selects the best move based on a neural network's evaluation.
 
-A tokenizer and a trained neural network can be used together to create a chess engine. 
-The chess-engine is a no search-based engine. This means that it doesnt create a monte carlo tree searching many
-moves ahead to decide which move is the best move. The way this chess-engine works is by simply looking at all
-the positions one move ahead and choosing the move with the highest winning chances based on an evaluation from a trained neural network. 
+# Components
 
-# Chess Engine
+## Chess Engine
 
-From a given position, all possible positions are found by making all legal moves in the position. The list of FEN positions is tokenized by the tokenizer. The tokenized fens are then forwarded through the neural network. For each position, the output of the neural network is from 0 to 63. Where 0 is loosing and 63 is winning. The binned percentages are in the perspective of the next person to play.
+The chess engine evaluates a given position by generating all possible legal positions one move ahead. Each position is evaluated by a neural network, which assigns a winning probability. The steps involved are:
 
-1) All FEN positions one move ahead are created from the given FEN position
+1. Generate all legal FEN positions one move ahead from the given position.
+2. Tokenize the list of FEN positions.
+3. Use the neural network to evaluate and categorize each position.
+4. Select and return the position with the highest winning probability.
 
-2) Tokenizer takes in a list of FEN notations and encodes them to integers
+## Tokenizer
 
-3) Neural network assigns each position to a specific category. There are 64 different categories where the first
-category describes a completely losing position and the last category is for completely winning positions.
+The tokenizer handles FEN notations, which can vary in length up to a maximum of 71 characters. Each FEN position is padded to ensure uniform length. This basic tokenizer does not consider castling information or move numbers, but future versions will include a more advanced tokenizer.
 
-# Tokenizer
+## Neural Network
 
-FEN notation intro
+The neural network categorizes each position into one of 64 classes, representing how winning the position is from the next player's perspective. A position evaluated as 0 is completely losing, while 63 is completely winning. This evaluation is consistent regardless of which player is to move next.
 
-The FEN notation has a maximum length of 71 but can vary in length. To tackle this, each FEN position is padded
-to reach the same length. This is a basic tokenizer and will in the next repo use a more advanced tokenizer. 
-The BasicTokenzier disregards castling information and the move numbers.
+# How It Works
 
-# Neural Net
+1. **Position Generation**: The engine generates all possible FEN positions from the current position.
+2. **Tokenization**: The tokenizer converts the list of FEN notations into integers.
+3. **Evaluation**: The neural network assigns each tokenized position a winning probability.
+4. **Selection**: The engine selects the position with the highest winning chance and outputs it as the best move.
 
-The neural network is tasked with categorizing the position into 64 different classes. Each class representing how winning a position is. The perspective is for the next player to play. So, if it is white to play and the position is completely winning the output would be 63. The output would be the same if it was black to play and the position is completely winning. 
+# Future Improvements
+
+- **Advanced Tokenizer**: Implement a tokenizer that includes castling information and move numbers.
+- **Enhanced Neural Network**: Train a more sophisticated neural network for better position evaluation.
+- **Search Integration**: Explore integrating search techniques to evaluate deeper positions.
+- **User Interface**: Develop a graphical user interface for easier interaction with the chess engine.
